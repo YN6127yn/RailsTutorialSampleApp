@@ -29,6 +29,6 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     assert_select 'div#error_explanation' do
       assert_select 'ul li', 4
     end
-    assert_select 'div.alert'
+    assert_select 'div.alert', "The form contains 4 errors."
   end
 end
