@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   before_action :logged_in_user, only:[:index, :edit, :update, :destroy]
-  before_action :set_user, only:[:show, :destroy]
+  before_action :get_user, only:[:show, :destroy]
   before_action :correct_user, only:[:edit, :update]
   before_action :admin_user, only: :destroy
 
@@ -65,14 +65,13 @@ class UsersController < ApplicationController
       end
     end
 
-    # Find user from database
-    def set_user
+    def get_user
       @user = User.find(params[:id])
     end
 
     # Check if the user is authorized to do the action
     def correct_user
-      @user ||= set_user
+      @user ||= get_user
       redirect_to root_url unless current_user?(@user)
     end
 
