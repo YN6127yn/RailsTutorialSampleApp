@@ -1,5 +1,11 @@
+require 'carrierwave/storage/abstract'
+require 'carrierwave/storage/file'
+require 'carrierwave/storage/fog'
+
 if Rails.env.production?
   CarrierWave.configure do |config|
+    config.storage :fog
+    config.fog_provider = 'fog/aws'
     config.fog_credentials = {
       :provider              => 'AWS',
       :region                => ENV['S3_REGION'],
@@ -7,5 +13,8 @@ if Rails.env.production?
       :aws_secret_access_key => ENV['S3_SECRET_KEY']
     }
     config.fog_directory     =  ENV['S3_BUCKET']
+  else
+    config.storage :file
+    config.enable_processing = false if Rails.env.test?
   end
 end
