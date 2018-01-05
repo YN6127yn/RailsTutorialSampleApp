@@ -6,16 +6,16 @@ hoge:
   activated: true
   activated_at: <%= Time.zone.now %>
 
-piyo:
-  name: Piyo Piyo
-  email: piyo@piyo.com
+fuga:
+  name: Fuga Fuga
+  email: fuga@fuga.com
   password_digest: <%= User.digest('password') %>
   activated: true
   activated_at: <%= Time.zone.now %>
 
-fuga:
-  name: Fuga Fuga
-  email: fuga@fuga.com
+piyo:
+  name: Piyo Piyo
+  email: piyo@piyo.com
   password_digest: <%= User.digest('password') %>
   activated: true
   activated_at: <%= Time.zone.now %>

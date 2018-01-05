@@ -1,0 +1,46 @@
+foo:
+  content: "Foo!"
+  created_at: <%= 10.minutes.ago %>
+  user: hoge
+
+bar:
+  content: "Bar!"
+  created_at: <%= 2.years.ago %>
+  user: hoge
+
+baz:
+  content: "Baz!"
+  created_at: <%= 3.hours.ago %>
+  user: hoge
+
+most_recent:
+  content: "Most Recent!"
+  created_at: <%= Time.zone.now %>
+  user: hoge
+
+<% 30.times do |n| %>
+micropost_<%= n %>:
+  content: <%= Faker::Lorem.sentence(5) %>
+  created_at: <%= 42.days.ago %>
+  user: hoge
+<% end %>
+
+spam:
+  content: "spam!"
+  created_at: <%= 5.hours.ago %>
+  user: fuga
+
+ham:
+  content: "ham?"
+  created_at: <%= 3.years.ago %>
+  user: fuga
+
+eggs:
+  content: "eggs?"
+  created_at: <%= 10.minutes.ago %>
+  user: piyo
+
+sausage:
+  content: "sausage without spam!"
+  created_at: <%= 2.days.ago %>
+  user: piyo
