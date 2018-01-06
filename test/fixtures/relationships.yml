@@ -1,0 +1,15 @@
+one:
+  follower: hoge
+  followed: piyo
+
+two:
+  follower: hoge
+  followed: hogera
+
+three:
+  follower: fuga
+  followed: hoge
+
+four:
+  follower: piyo
+  followed: hoge

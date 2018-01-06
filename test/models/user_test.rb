@@ -84,4 +84,33 @@ class UserTest < ActiveSupport::TestCase
       @user.destroy
     end
   end
+
+  test "should follow and unfollow a user" do
+    hoge = users(:hoge)
+    fuga = users(:fuga)
+    assert_not hoge.following?(fuga)
+    hoge.follow(fuga)
+    assert hoge.following?(fuga)
+    assert fuga.followers.include?(hoge)
+    hoge.unfollow(fuga)
+    assert_not hoge.following?(fuga)
+  end
+
+  test "feed should have the right posts" do
+    hoge = users(:hoge)
+    piyo = users(:piyo)
+    fuga = users(:fuga)
+    # Check following user's posts
+    piyo.microposts.each do |post_following|
+      assert hoge.feed.include?(post_following)
+    end
+    # Check own posts
+    hoge.microposts.each do |post_self|
+      assert hoge.feed.include?(post_self)
+    end
+    # Check not-following user's posts
+    fuga.microposts.each do |post_unfollowed|
+      assert_not hoge.feed.include?(post_unfollowed)
+    end
+  end
 end

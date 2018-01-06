@@ -1,4 +1,6 @@
 class Micropost < ApplicationRecord
+
+  # Relationships
   belongs_to :user
 
   # Order
@@ -11,6 +13,8 @@ class Micropost < ApplicationRecord
   validates :user_id, presence: true
   validates :content, presence: true, length: {maximum: 140}
   validate :picture_size
+
+  # Methods
 
   private
 
