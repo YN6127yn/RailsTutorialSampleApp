@@ -7,7 +7,14 @@ class UsersController < ApplicationController
   before_action :admin_user, only: :destroy
 
   def index
-    @users = User.where(activated: true).paginate(page: params[:page])
+    if params[:q] && params[:q].reject { |key, value| value.blank? }.present?
+      @q = User.ransack(search_params, activated_true: true)
+      @title = "Search Result"
+    else
+      @q = User.ransack(activated_true: true)
+      @title = "All users"
+    end
+    @users = @q.result.paginate(page: params[:page])
   end
 
   def show
@@ -66,6 +73,10 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:name, :email,
                                    :password, :password_confirmation)
+    end
+
+    def search_params
+      params.require(:q).permit(:name_cont)
     end
 
     # before_action
