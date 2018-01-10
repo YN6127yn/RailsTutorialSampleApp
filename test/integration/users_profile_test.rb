@@ -28,6 +28,13 @@ class UsersProfileTest < ActionDispatch::IntegrationTest
     @user.microposts.paginate(page:1).each do |micropost|
       assert_match micropost.content, response.body
     end
+
+    # Micropost Search
+    get user_path(@user), params: {q: {content_cont: "a"}}
+    q = @user.microposts.ransack(content_cont: "a")
+    q.result.paginate(page:1).each do |micropost|
+      assert_match micropost.content, response.body
+    end
   end
 
   test "home profile display" do
@@ -43,5 +50,12 @@ class UsersProfileTest < ActionDispatch::IntegrationTest
     assert_match @user.following.count.to_s, response.body
     assert_select 'a[href=?]', followers_user_path(@user)
     assert_match @user.followers.count.to_s, response.body
+
+    # Micropost Search
+    get root_path, params: {q: {content_cont: "a"}}
+    q = @user.feed.ransack(content_cont: "a")
+    q.result.paginate(page:1).each do |micropost|
+      assert_match micropost.content, response.body
+    end
   end
 end

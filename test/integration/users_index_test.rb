@@ -49,5 +49,9 @@ class UsersIndexTest < ActionDispatch::IntegrationTest
     # User search (no result)
     get users_path, params: {q: {name_cont: "abcdefghijk"}}
     assert_match "Couldn't find any user.", response.body
+
+    # Make sure the title is back to 'All users'
+    get users_path, params: {q: {name_cont: ""}}
+    assert_select 'title', "All users | Ruby on Rails Tutorial Sample App"
   end
 end

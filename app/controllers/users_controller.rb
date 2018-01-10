@@ -8,7 +8,7 @@ class UsersController < ApplicationController
 
   def index
     if params[:q] && params[:q].reject { |key, value| value.blank? }.present?
-      @q = User.ransack(search_params, activated_true: true)
+      @q = User.ransack(users_search_params, activated_true: true)
       @title = "Search Result"
     else
       @q = User.ransack(activated_true: true)
@@ -19,7 +19,14 @@ class UsersController < ApplicationController
 
   def show
     redirect_to root_url and return unless @user.activated?
-    @microposts = @user.microposts.paginate(page: params[:page])
+    if params[:q] && params[:q].reject { |key, value| value.blank? }.present?
+      @q = @user.microposts.ransack(microposts_search_params)
+      @microposts = @q.result.paginate(page: params[:page])
+    else
+      @q = Micropost.none.ransack
+      @microposts = @user.microposts.paginate(page: params[:page])
+    end
+    @url = user_path(@user)
   end
 
   def new
@@ -73,10 +80,6 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:name, :email,
                                    :password, :password_confirmation)
-    end
-
-    def search_params
-      params.require(:q).permit(:name_cont)
     end
 
     # before_action
