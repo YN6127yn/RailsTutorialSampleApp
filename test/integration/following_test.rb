@@ -5,6 +5,7 @@ class FollowingTest < ActionDispatch::IntegrationTest
     @user = users(:hoge)
     @other = users(:fuga)
     log_in_as(@user)
+    ActionMailer::Base.deliveries.clear
   end
 
   test "following page" do
@@ -51,6 +52,32 @@ class FollowingTest < ActionDispatch::IntegrationTest
     assert_difference '@user.following.count', -1 do
       delete relationship_path(relationship), xhr: true
     end
+  end
+
+  test "should send follow notification email" do
+    post relationships_path, params: {followed_id: @other.id}
+    assert_equal 1, ActionMailer::Base.deliveries.size
+  end
+
+  test "should not send follow notification email" do
+    not_notify = users(:hogehoge)
+    post relationships_path, params: {followed_id: not_notify.id}
+    assert_equal 0, ActionMailer::Base.deliveries.size
+  end
+
+  test "should send unfollow notification email" do
+    @user.follow(@other)
+    relationship = @user.active_relationships.find_by(followed_id: @other.id)
+    delete relationship_path(relationship)
+    assert_equal 2, ActionMailer::Base.deliveries.size
+  end
+
+  test "should not send unfollow notification email" do
+    not_notify = users(:hogehoge)
+    @user.follow(not_notify)
+    relationship = @user.active_relationships.find_by(followed_id: not_notify.id)
+    delete relationship_path(relationship)
+    assert_equal 0, ActionMailer::Base.deliveries.size
   end
 
   test "feed on Home page" do

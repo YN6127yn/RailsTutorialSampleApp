@@ -79,7 +79,8 @@ class UsersController < ApplicationController
     # Strong parameter
     def user_params
       params.require(:user).permit(:name, :email,
-                                   :password, :password_confirmation)
+                                   :password, :password_confirmation,
+                                   :follow_notification)
     end
 
     # before_action

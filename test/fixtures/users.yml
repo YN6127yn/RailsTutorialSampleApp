@@ -12,6 +12,7 @@ fuga:
   password_digest: <%= User.digest('password') %>
   activated: true
   activated_at: <%= Time.zone.now %>
+  follow_notification: true
 
 piyo:
   name: Piyo Piyo
@@ -23,6 +24,13 @@ piyo:
 hogera:
   name: Hogera Hogera
   email: hogera@hogera.com
+  password_digest: <%= User.digest('password') %>
+  activated: true
+  activated_at: <%= Time.zone.now %>
+
+hogehoge:
+  name: Hogehoge Hogehoge
+  email: hogehoge@hogehoge.com
   password_digest: <%= User.digest('password') %>
   activated: true
   activated_at: <%= Time.zone.now %>

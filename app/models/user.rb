@@ -94,11 +94,17 @@ class User < ApplicationRecord
   # Follow other user
   def follow(other_user)
     active_relationships.create(followed_id: other_user.id)
+    if other_user.follow_notification
+      Relationship.send_follow_email(other_user, self)
+    end
   end
 
   # Unfollow other user
   def unfollow(other_user)
     active_relationships.find_by(followed_id: other_user.id).destroy
+    if other_user.follow_notification
+      Relationship.send_unfollow_email(other_user, self)
+    end
   end
 
   # If user follow the other user, return true

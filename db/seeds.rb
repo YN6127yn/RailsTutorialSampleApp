@@ -6,7 +6,8 @@ User.create!(
   password_confirmation: "foobar",
   admin: true,
   activated: true,
-  activated_at: Time.zone.now
+  activated_at: Time.zone.now,
+  follow_notification: true
 )
 
 99.times do |n|
