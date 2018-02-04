@@ -23,10 +23,10 @@
         });
         $('section.message_box').scrollTop(height);
       </script>
-        <div class="message_form">
-          <%= render 'messages/message_form',
-           {from_user: current_user, to_user: @user, room_id: @room_id} %>
-        </div>
+      <div class="message_form">
+        <%= render 'messages/message_form',
+         {from_user: current_user, to_user: @user, room_id: @room_id} %>
+      </div>
     <% end %>
   </aside>
   <div class="col-md-8">
