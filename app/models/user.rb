@@ -8,6 +8,12 @@ class User < ApplicationRecord
             foreign_key: "followed_id", dependent: :destroy
   has_many :following, through: :active_relationships, source: :followed
   has_many :followers, through: :passive_relationships, source: :follower
+  has_many :from_messages, class_name: "Message",
+            foreign_key: "from_id", dependent: :destroy
+  has_many :to_messages, class_name: "Message",
+            foreign_key: "to_id", dependent: :destroy
+  has_many :sent_messages, through: :from_messages, source: :from
+  has_many :received_messages, through: :to_messages, source: :to
 
   # Attributes
   attr_accessor :remember_token, :activation_token, :reset_token
@@ -111,6 +117,11 @@ class User < ApplicationRecord
   # If user follow the other user, return true
   def following?(other_user)
     following.include?(other_user)
+  end
+
+  # Send message to other user
+  def send_message(other_user, room_id, content)
+    from_messages.create!(to_id: other_user.id, room_id: room_id, content: content)
   end
 
   private

@@ -1,0 +1,27 @@
+foo:
+  content: "Foo!"
+  created_at: <%= 10.minutes.ago %>
+  from: hoge
+  to: fuga
+  room_id: 1-2
+
+bar:
+  content: "Bar!"
+  created_at: <%= 2.years.ago %>
+  from: piyo
+  to: hoge
+  room_id: 3-1
+
+baz:
+  content: "Baz!"
+  created_at: <%= 3.hours.ago %>
+  from: fuga
+  to: hogera
+  room_id: 2-4
+
+most_recent:
+  content: "Most Recent!"
+  created_at: <%= Time.zone.now %>
+  from: hogehoge
+  to: hoge
+  room_id: 5-1

@@ -26,6 +26,8 @@ class UsersController < ApplicationController
       @q = Micropost.none.ransack
       @microposts = @user.microposts.paginate(page: params[:page])
     end
+    @room_id = message_room_id(current_user, @user)
+    @messages = Message.recent_in_room(@room_id)
     @url = user_path(@user)
   end
 
@@ -99,5 +101,16 @@ class UsersController < ApplicationController
     #  Check if the user is administrator
     def admin_user
       redirect_to root_url unless current_user.admin?
+    end
+
+    # Return room id
+    def message_room_id(first_user, second_user)
+      first_id = first_user.id.to_i
+      second_id = second_user.id.to_i
+      if first_id < second_id
+        "#{first_user.id}-#{second_user.id}"
+      else
+        "#{second_user.id}-#{first_user.id}"
+      end
     end
 end
