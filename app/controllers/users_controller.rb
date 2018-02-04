@@ -28,7 +28,6 @@ class UsersController < ApplicationController
     end
     @room_id = message_room_id(current_user, @user)
     @messages = Message.recent_in_room(@room_id)
-    @url = user_path(@user)
   end
 
   def new
